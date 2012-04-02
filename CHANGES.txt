@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.1 (2012-04-02)
-----------------
+3.1-dev (2012-04-02)
+--------------------
 
 - Added highlighting features [reinhardt]
 - Fixed path query with depth so that folders don't show themselves in their
