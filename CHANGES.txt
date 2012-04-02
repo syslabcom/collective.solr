@@ -4,6 +4,10 @@ Changelog
 3.1 - unreleased
 ----------------
 
+- Added highlighting features [reinhardt]
+- Fixed path query with depth so that folders don't show themselves in their
+  contents [reinhardt]
+
 3.0 - 2012-02-06
 ----------------
 
