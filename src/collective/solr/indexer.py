@@ -121,6 +121,12 @@ class SolrIndexProcessor(object):
                 msg = 'schema is missing unique key, skipping unindexing of %r'
                 logger.warning(msg, obj)
                 return
+
+            # remove the PathWrapper, otherwise IndexableObjectWrapper fails
+            # to get the UID indexer (for dexterity objects) and the parent 
+            # UID is acquired
+            obj = obj.context
+
             data, missing = self.getData(obj, attributes=[uniqueKey])
             prepareData(data)
             if not uniqueKey in data:
