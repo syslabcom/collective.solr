@@ -125,7 +125,8 @@ class SolrIndexProcessor(object):
             # remove the PathWrapper, otherwise IndexableObjectWrapper fails
             # to get the UID indexer (for dexterity objects) and the parent 
             # UID is acquired
-            obj = obj.context
+            if hasattr(obj, 'context'):
+                obj = obj.context
 
             data, missing = self.getData(obj, attributes=[uniqueKey])
             prepareData(data)
