@@ -1,4 +1,4 @@
-from zope.component import queryAdapter
+from zope.component import queryAdapter, queryUtility
 from DateTime import DateTime
 from Products.CMFCore.permissions import AccessInactivePortalContent
 from Products.CMFCore.utils import _getAuthenticatedUser
@@ -7,7 +7,9 @@ from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.Lazy import Lazy
 from Products.ZCatalog.Lazy import LazyCat
 
-from collective.solr.interfaces import ISearchDispatcher
+from collective.solr.interfaces import ISearchDispatcher, ISolrConnectionManager
+from collective.solr.indexer import SolrIndexProcessor
+from collective.indexing.queue import processQueue
 from collective.solr.parser import SolrResponse
 
 HAS_EXPCAT = True
@@ -26,17 +28,41 @@ def searchResults(self, REQUEST=None, **kw):
     if only_active and not _checkPermission(AccessInactivePortalContent, self):
         kw['effectiveRange'] = DateTime()
 
+    processQueue()
+
     adapter = queryAdapter(self, ISearchDispatcher)
     if adapter is not None:
         return adapter(REQUEST, **kw)
     else:
         return self._cs_old_searchResults(REQUEST, **kw)
 
+def unrestrictedSearchResults(self, REQUEST=None, **kw):
+    kw = kw.copy()
+    only_active = not kw.get('show_inactive', False)
+    if only_active and not _checkPermission(AccessInactivePortalContent, self):
+        kw['effectiveRange'] = DateTime()
+
+    processQueue()
+
+    adapter = queryAdapter(self, ISearchDispatcher)
+    if adapter is not None:
+        return adapter(REQUEST, **kw)
+    else:
+        return self._cs_old_searchResults(REQUEST, **kw)
+
+def reindexObject(self, object, idxs=[], update_metadata=1, uid=None):
+        manager = queryUtility(ISolrConnectionManager)
+        proc = SolrIndexProcessor(manager)
+        proc.reindex(object, attributes=idxs or None)
+        proc.commit()
+
 
 def patchCatalogTool():
-    """ monkey patch plone's catalogtool with the solr dispatcher """
+    """ monkey patch plone's catalogtool with the solr dispatcher and indexer """
     CatalogTool._cs_old_searchResults = CatalogTool.searchResults
     CatalogTool.searchResults = searchResults
+    CatalogTool.unrestrictedSearchResults = unrestrictedSearchResults
+    CatalogTool.reindexObject = reindexObject
     CatalogTool.__call__ = searchResults
 
 
