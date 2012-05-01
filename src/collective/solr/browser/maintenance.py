@@ -290,28 +290,29 @@ class SolrMaintenanceView(BrowserView):
         for flare in res:
             try:
                 ob = PloneFlare(flare).getObject()
-                uuid = IUUID(ob)
-                if uuid != flare[key]:
-                    log('indexed under wrong UID, removing: %s\n' % \
-                                        flare['path_string'])
-                    conn.delete(flare[key])
-                    deleted += 1
-                    realob_res = SolrResponse(conn.search(q='%s:%s' % \
-                                              (key, uuid))).results()
-                    if len(realob_res) == 0:
-                        log('no sane entry for last object, reindexing')
-                        data, missing = proc.getData(ob)
-                        prepareData(data)
-                        if not missing:
-                            boost_values = boost_values(obj, data)
-                            conn.add(boost_values=boost_values, **data)
-                            reindexed += 1
-                        else:
-                            log('  missing data, cannot index.\n')
-            except AttributeError as ae:
-                log('not found, removing: %s\n' % flare['path_string'])
+            except Exception as err:
+                log('Error getting object, removing: %s (%s)\n' % (flare['path_string'], err))
                 conn.delete(flare[key])
                 deleted += 1
+                continue
+            uuid = IUUID(ob)
+            if uuid != flare[key]:
+                log('indexed under wrong UID, removing: %s\n' % \
+                                    flare['path_string'])
+                conn.delete(flare[key])
+                deleted += 1
+                realob_res = SolrResponse(conn.search(q='%s:%s' % \
+                                          (key, uuid))).results()
+                if len(realob_res) == 0:
+                    log('no sane entry for last object, reindexing')
+                    data, missing = proc.getData(ob)
+                    prepareData(data)
+                    if not missing:
+                        boost_values = boost_values(obj, data)
+                        conn.add(boost_values=boost_values, **data)
+                        reindexed += 1
+                    else:
+                        log('  missing data, cannot index.\n')
         conn.commit()
         msg = 'solr cleanup finished, %s item(s) removed, %s item(s) reindexed\n' % (deleted, reindexed)
         log(msg)
