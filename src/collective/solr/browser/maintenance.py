@@ -304,12 +304,12 @@ class SolrMaintenanceView(BrowserView):
                 realob_res = SolrResponse(conn.search(q='%s:%s' % \
                                           (key, uuid))).results()
                 if len(realob_res) == 0:
-                    log('no sane entry for last object, reindexing')
+                    log('no sane entry for last object, reindexing\n')
                     data, missing = proc.getData(ob)
                     prepareData(data)
                     if not missing:
-                        boost_values = boost_values(obj, data)
-                        conn.add(boost_values=boost_values, **data)
+                        boost = boost_values(ob, data)
+                        conn.add(boost_values=boost, **data)
                         reindexed += 1
                     else:
                         log('  missing data, cannot index.\n')
