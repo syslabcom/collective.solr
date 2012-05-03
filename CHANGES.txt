@@ -4,7 +4,7 @@ Changelog
 3.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- fixed batching and reindexing in cleanup method [reinhardt]
 
 
 3.1-dev_star2 (2012-04-27)
