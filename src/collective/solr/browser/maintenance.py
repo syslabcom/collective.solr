@@ -273,7 +273,7 @@ class SolrMaintenanceView(BrowserView):
         log(msg)
         logger.info(msg)
 
-    def cleanup(self, batch=1000):
+    def cleanup(self):
         """ remove entries from solr that don't have a corresponding Zope 
             object or have a different UID than the real object"""
         manager = queryUtility(ISolrConnectionManager)
