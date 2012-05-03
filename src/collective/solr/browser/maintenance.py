@@ -273,7 +273,7 @@ class SolrMaintenanceView(BrowserView):
         log(msg)
         logger.info(msg)
 
-    def cleanup(self):
+    def cleanup(self, batch=1000):
         """ remove entries from solr that don't have a corresponding Zope 
             object or have a different UID than the real object"""
         manager = queryUtility(ISolrConnectionManager)
@@ -283,37 +283,44 @@ class SolrMaintenanceView(BrowserView):
         log('cleaning up solr index...\n')
         key = manager.getSchema().uniqueKey
 
-        res = SolrResponse(conn.search(q='*:*')).results()
-        log('%s items in solr catalog\n' % len(res))
+        start = 0
+        resp = SolrResponse(conn.search(q='*:*', rows=batch, start=start))
+        res = resp.results()
+        log('%s items in solr catalog\n' % resp.response.numFound)
         deleted = 0
         reindexed = 0
-        for flare in res:
-            try:
-                ob = PloneFlare(flare).getObject()
-            except Exception as err:
-                log('Error getting object, removing: %s (%s)\n' % (flare['path_string'], err))
-                conn.delete(flare[key])
-                deleted += 1
-                continue
-            uuid = IUUID(ob)
-            if uuid != flare[key]:
-                log('indexed under wrong UID, removing: %s\n' % \
-                                    flare['path_string'])
-                conn.delete(flare[key])
-                deleted += 1
-                realob_res = SolrResponse(conn.search(q='%s:%s' % \
-                                          (key, uuid))).results()
-                if len(realob_res) == 0:
-                    log('no sane entry for last object, reindexing\n')
-                    data, missing = proc.getData(ob)
-                    prepareData(data)
-                    if not missing:
-                        boost = boost_values(ob, data)
-                        conn.add(boost_values=boost, **data)
-                        reindexed += 1
-                    else:
-                        log('  missing data, cannot index.\n')
-        conn.commit()
+        while len(res) > 0:
+            for flare in res:
+                try:
+                    ob = PloneFlare(flare).getObject()
+                except Exception as err:
+                    log('Error getting object, removing: %s (%s)\n' % (flare['path_string'], err))
+                    conn.delete(flare[key])
+                    deleted += 1
+                    continue
+                uuid = IUUID(ob)
+                if uuid != flare[key]:
+                    log('indexed under wrong UID, removing: %s\n' % \
+                                        flare['path_string'])
+                    conn.delete(flare[key])
+                    deleted += 1
+                    realob_res = SolrResponse(conn.search(q='%s:%s' % \
+                                              (key, uuid))).results()
+                    if len(realob_res) == 0:
+                        log('no sane entry for last object, reindexing\n')
+                        data, missing = proc.getData(ob)
+                        prepareData(data)
+                        if not missing:
+                            boost = boost_values(ob, data)
+                            conn.add(boost_values=boost, **data)
+                            reindexed += 1
+                        else:
+                            log('  missing data, cannot index.\n')
+            log('handled batch of %d items, commiting\n' % len(res))
+            conn.commit()
+            start += batch
+            resp = SolrResponse(conn.search(q='*:*', rows=batch, start=start))
+            res = resp.results()
         msg = 'solr cleanup finished, %s item(s) removed, %s item(s) reindexed\n' % (deleted, reindexed)
         log(msg)
         logger.info(msg)
