@@ -4,7 +4,7 @@ Changelog
 3.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- added handling of hl and fl parameters [reinhardt]
 
 
 3.1-dev-star3 (2012-05-03)
