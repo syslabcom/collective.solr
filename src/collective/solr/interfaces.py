@@ -120,7 +120,8 @@ class ISolrSchema(Interface):
 
     field_list = List(title=_(u'Default fields to be returned'),
         description = _(u'Specify metadata fields that should be returned for '
-                         'items in the result set, one per line.'),
+                         'items in the result set, one per line. Defaults to '
+                         'all available plus ranking score.'),
         value_type = TextLine(), default = [], required = False)
 
 

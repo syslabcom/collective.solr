@@ -51,7 +51,7 @@ class Search(object):
                 parameters['hl.fragsize'] = getattr(config, 'highlight_fragsize', None) or 100
         if not 'fl' in parameters:
             if config.field_list:
-                parameters['fl'] = config.field_list
+                parameters['fl'] = ' '.join(config.field_list)
             else:
                 parameters['fl'] = '* score'
         if isinstance(query, dict):
