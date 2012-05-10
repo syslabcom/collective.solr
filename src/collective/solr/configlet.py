@@ -213,12 +213,12 @@ class SolrControlPanelAdapter(SchemaAdapterBase):
         util = queryUtility(ISolrConnectionConfig)
         return getattr(util, 'field_list', '')
 
-    def getFieldList(self, value):
+    def setFieldList(self, value):
         util = queryUtility(ISolrConnectionConfig)
         if util is not None:
             util.field_list = value
 
-    field_list = property(getFieldList, getFieldList)
+    field_list = property(getFieldList, setFieldList)
 
 
 class SolrControlPanel(ControlPanelForm):

@@ -44,7 +44,7 @@ class Search(object):
                 'parameter: %r (%r)', config.max_results, query, parameters)
         if not 'fl' in parameters:
             if config.field_list:
-                parameters['fl'] = config.field_list
+                parameters['fl'] = ' '.join(config.field_list)
             else:
                 parameters['fl'] = '* score'
         if isinstance(query, dict):
