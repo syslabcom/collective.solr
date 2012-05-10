@@ -99,6 +99,11 @@ class ISolrSchema(Interface):
                        'on the expense of finding content with local roles'
                        'given to specific users.'), default=False)
 
+    field_list = List(title=_(u'Default fields to be returned'),
+        description = _(u'Specify metadata fields that should be returned for '
+                         'items in the result set, one per line.'),
+        value_type = TextLine(), default = [], required = False)
+
 
 class ISolrConnectionConfig(ISolrSchema):
     """ utility to hold the connection configuration for the solr server """

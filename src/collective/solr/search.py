@@ -42,6 +42,11 @@ class Search(object):
             parameters['rows'] = config.max_results or ''
             logger.info('falling back to "max_results" (%d) without a "rows" '
                 'parameter: %r (%r)', config.max_results, query, parameters)
+        if not 'fl' in parameters:
+            if config.field_list:
+                parameters['fl'] = config.field_list
+            else:
+                parameters['fl'] = '* score'
         if isinstance(query, dict):
             query = ' '.join(query.values())
         logger.debug('searching for %r (%r)', query, parameters)

@@ -109,6 +109,11 @@ class SolrConfigXMLAdapter(XMLAdapterBase):
                 elif child.nodeName == 'exclude-user':
                     value = str(child.getAttribute('value'))
                     self.context.exclude_user = self._convertToBoolean(value)
+                elif child.nodeName == 'field-list':
+                    value = []
+                    for elem in child.getElementsByTagName('parameter'):
+                        value.append(elem.getAttribute('name'))
+                    self.context.field_list = tuple(map(str, value))
 
     def _createNode(self, name, value):
         node = self._doc.createElement(name)
@@ -157,6 +162,12 @@ class SolrConfigXMLAdapter(XMLAdapterBase):
             str(self.context.slow_query_threshold)))
         append(create('effective-steps', str(self.context.effective_steps)))
         append(create('exclude-user', str(bool(self.context.exclude_user))))
+        field_list = self._doc.createElement('field-list')
+        append(field_list)
+        for name in self.context.field_list:
+            param = self._doc.createElement('parameter')
+            param.setAttribute('name', name)
+            facets.appendChild(param)
         return node
 
 

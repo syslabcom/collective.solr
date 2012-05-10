@@ -87,8 +87,6 @@ def solrSearchResults(request=None, **keywords):
     query = search.buildQuery(**args)
     optimizeQueryParameters(query, params)
     __traceback_info__ = (query, params, args)
-    if not 'fl' in params:
-        params['fl'] = '* score'
     response = search(query, **params)
     def wrap(flare):
         """ wrap a flare object with a helper class """
