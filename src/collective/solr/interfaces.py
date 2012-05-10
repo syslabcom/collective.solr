@@ -118,6 +118,11 @@ class ISolrSchema(Interface):
         description=_(u'The size, in characters, of the snippets (aka '
                        'fragments) created by the highlighter.'))
 
+    field_list = List(title=_(u'Default fields to be returned'),
+        description = _(u'Specify metadata fields that should be returned for '
+                         'items in the result set, one per line.'),
+        value_type = TextLine(), default = [], required = False)
+
 
 class ISolrConnectionConfig(ISolrSchema):
     """ utility to hold the connection configuration for the solr server """
