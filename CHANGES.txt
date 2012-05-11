@@ -1,10 +1,10 @@
 Changelog
 =========
 
-3.1 (unreleased)
-----------------
+3.1-dev-star5 (2012-05-11)
+--------------------------
 
-- Nothing changed yet.
+- hl is false by default, true for site search [reinhardt]
 
 
 3.1-dev-star4 (2012-05-10)
