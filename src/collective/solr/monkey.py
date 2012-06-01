@@ -55,6 +55,7 @@ def reindexObject(self, object, idxs=[], update_metadata=1, uid=None):
         proc = SolrIndexProcessor(manager)
         proc.reindex(object, attributes=idxs or None)
         proc.commit()
+        self._reindexObject
 
 
 def patchCatalogTool():
@@ -62,6 +63,7 @@ def patchCatalogTool():
     CatalogTool._cs_old_searchResults = CatalogTool.searchResults
     CatalogTool.searchResults = searchResults
     CatalogTool.unrestrictedSearchResults = unrestrictedSearchResults
+    CatalogTool._reindexObject = CatalogTool.reindexObject
     CatalogTool.reindexObject = reindexObject
     CatalogTool.__call__ = searchResults
 
