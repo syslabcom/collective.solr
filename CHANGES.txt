@@ -4,7 +4,7 @@ Changelog
 3.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- let reindexObject also reindex in ZCatalog [reinhardt]
 
 
 3.1-dev-star6 (2012-05-21)
