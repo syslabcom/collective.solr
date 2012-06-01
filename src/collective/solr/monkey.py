@@ -50,21 +50,11 @@ def unrestrictedSearchResults(self, REQUEST=None, **kw):
     else:
         return self._cs_old_searchResults(REQUEST, **kw)
 
-def reindexObject(self, object, idxs=[], update_metadata=1, uid=None):
-        manager = queryUtility(ISolrConnectionManager)
-        proc = SolrIndexProcessor(manager)
-        proc.reindex(object, attributes=idxs or None)
-        proc.commit()
-        self._reindexObject(object, idxs, update_metadata, uid)
-
-
 def patchCatalogTool():
     """ monkey patch plone's catalogtool with the solr dispatcher and indexer """
     CatalogTool._cs_old_searchResults = CatalogTool.searchResults
     CatalogTool.searchResults = searchResults
     CatalogTool.unrestrictedSearchResults = unrestrictedSearchResults
-    CatalogTool._reindexObject = CatalogTool.reindexObject
-    CatalogTool.reindexObject = reindexObject
     CatalogTool.__call__ = searchResults
 
 
