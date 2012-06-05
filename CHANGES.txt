@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.1 (unreleased)
-----------------
+3.1star8 (2012-06-05)
+---------------------
 
 - let reindexObject also reindex in ZCatalog [reinhardt]
 
