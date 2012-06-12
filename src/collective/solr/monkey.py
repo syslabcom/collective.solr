@@ -9,7 +9,6 @@ from Products.ZCatalog.Lazy import LazyCat
 
 from collective.solr.interfaces import ISearchDispatcher, ISolrConnectionManager
 from collective.solr.indexer import SolrIndexProcessor
-from collective.indexing.queue import processQueue
 from collective.solr.parser import SolrResponse
 
 HAS_EXPCAT = True
@@ -28,8 +27,6 @@ def searchResults(self, REQUEST=None, **kw):
     if only_active and not _checkPermission(AccessInactivePortalContent, self):
         kw['effectiveRange'] = DateTime()
 
-    processQueue()
-
     adapter = queryAdapter(self, ISearchDispatcher)
     if adapter is not None:
         return adapter(REQUEST, **kw)
@@ -41,8 +38,6 @@ def unrestrictedSearchResults(self, REQUEST=None, **kw):
     only_active = not kw.get('show_inactive', False)
     if only_active and not _checkPermission(AccessInactivePortalContent, self):
         kw['effectiveRange'] = DateTime()
-
-    processQueue()
 
     adapter = queryAdapter(self, ISearchDispatcher)
     if adapter is not None:
