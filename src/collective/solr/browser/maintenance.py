@@ -4,7 +4,7 @@ from time import time, clock, strftime
 from BTrees.IIBTree import IITreeSet
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from plone.uuid.interfaces import IUUID
+from plone.uuid.interfaces import IUUID, IUUIDAware
 from zope.interface import implements
 from zope.component import queryUtility
 
@@ -297,6 +297,10 @@ class SolrMaintenanceView(BrowserView):
                     log('Error getting object, removing: %s (%s)\n' % (flare['path_string'], err))
                     conn.delete(flare[key])
                     deleted += 1
+                    continue
+                if not IUUIDAware.providedBy(ob):
+                    log('Object %s of type %s does not support uuids, skipping.' % \
+                        ('/'.join(ob.getPhysicalPath()), ob.meta_type))
                     continue
                 uuid = IUUID(ob)
                 if uuid != flare[key]:
