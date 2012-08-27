@@ -301,7 +301,7 @@ class SolrMaintenanceView(BrowserView):
                     deleted += 1
                     continue
                 if not IUUIDAware.providedBy(ob):
-                    log('Object %s of type %s does not support uuids, skipping.' % \
+                    log('Object %s of type %s does not support uuids, skipping.\n' % \
                         ('/'.join(ob.getPhysicalPath()), ob.meta_type))
                     continue
                 uuid = IUUID(ob)
