@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1star10 (unreleased)
+3.1star10 (2012-08-29)
 ----------------------
 
 - Fix datehandler to also handle python date objects. [jcbrand]
