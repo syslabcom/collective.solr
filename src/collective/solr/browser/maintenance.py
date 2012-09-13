@@ -4,7 +4,7 @@ from time import time, clock, strftime
 from BTrees.IIBTree import IITreeSet
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from plone.uuid.interfaces import IUUID
+from plone.uuid.interfaces import IUUID, IUUIDAware
 from zope.interface import implements
 from zope.component import queryUtility
 
@@ -62,13 +62,15 @@ class SolrMaintenanceView(BrowserView):
     """ helper view for indexing all portal content in Solr """
     implements(ISolrMaintenanceView)
 
-    def mklog(self):
+    def mklog(self, use_std_log=False):
         """ helper to prepend a time stamp to the output """
         write = self.request.RESPONSE.write
         def log(msg, timestamp=True):
             if timestamp:
                 msg = strftime('%Y/%m/%d-%H:%M:%S ') + msg
             write(msg)
+            if use_std_log:
+                logger.info(msg)
         return log
 
     def optimize(self):
@@ -279,7 +281,7 @@ class SolrMaintenanceView(BrowserView):
         manager = queryUtility(ISolrConnectionManager)
         proc = SolrIndexProcessor(manager)
         conn = manager.getConnection()
-        log = self.mklog()
+        log = self.mklog(use_std_log=True)
         log('cleaning up solr index...\n')
         key = manager.getSchema().uniqueKey
 
@@ -297,6 +299,10 @@ class SolrMaintenanceView(BrowserView):
                     log('Error getting object, removing: %s (%s)\n' % (flare['path_string'], err))
                     conn.delete(flare[key])
                     deleted += 1
+                    continue
+                if not IUUIDAware.providedBy(ob):
+                    log('Object %s of type %s does not support uuids, skipping.\n' % \
+                        ('/'.join(ob.getPhysicalPath()), ob.meta_type))
                     continue
                 uuid = IUUID(ob)
                 if uuid != flare[key]:
