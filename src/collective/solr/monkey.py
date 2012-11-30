@@ -47,7 +47,7 @@ def unrestrictedSearchResults(self, REQUEST=None, **kw):
 
 def indexes(self):
     manager = queryUtility(ISolrConnectionManager)
-    schema = manager.getSchema() or {}
+    schema = manager and manager.getSchema() or {}
     indexes = list(set(schema.keys()).union(set(self._catalog.indexes.keys())))
     return indexes
 
