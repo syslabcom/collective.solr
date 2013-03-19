@@ -49,6 +49,7 @@ def patchCatalogTool():
     """ monkey patch plone's catalogtool with the solr dispatcher and indexer """
     CatalogTool._cs_old_searchResults = CatalogTool.searchResults
     CatalogTool.searchResults = searchResults
+    CatalogTool._cs_old_unrestrictedSearchResults = CatalogTool.unrestrictedSearchResults
     CatalogTool.unrestrictedSearchResults = unrestrictedSearchResults
     CatalogTool.__call__ = searchResults
 
