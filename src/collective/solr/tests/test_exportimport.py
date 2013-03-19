@@ -121,6 +121,7 @@ SOLR_XML = """\
     </highlight_fields>
     <highlight_formatter_pre value=""/>
     <highlight_formatter_post value=""/>
+    <field-list/>
   </settings>
 </object>
 """
