@@ -7,7 +7,7 @@ from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.Lazy import Lazy
 from Products.ZCatalog.Lazy import LazyCat
 
-from collective.solr.interfaces import ISearchDispatcher
+from collective.solr.interfaces import (ISearchDispatcher)
 from collective.solr.parser import SolrResponse
 
 HAS_EXPCAT = True

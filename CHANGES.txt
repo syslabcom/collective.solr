@@ -1,75 +1,24 @@
 Changelog
 =========
 
-3.1star12 (unreleased)
-----------------------
+3.1.1 - unreleased
+------------------
 
-- Nothing changed yet.
-
-
-3.1star11 (2012-09-19)
-----------------------
-
-- Nothing changed yet.
+- 
 
 
-3.1star10 (2012-08-29)
-----------------------
+3.1 - 2013-02-16
+----------------
 
-- Fix datehandler to also handle python date objects. [jcbrand]
+- Add optional plone.app.contentlisting/plone.app.search support
+  [do3cc][csenger]
 
+- Add datehandler support for python date objects.
+  [jcbrand]
 
-3.1star9 (2012-07-02)
----------------------
+- Add inthandler support for not indexing Integers that are None.
+  [do3cc]
 
-- Nothing changed yet.
-
-
-3.1star8 (2012-06-05)
----------------------
-
-- let reindexObject also reindex in ZCatalog [reinhardt]
-
-
-3.1-dev-star6 (2012-05-21)
---------------------------
-
-- Nothing changed yet.
-
-
-3.1-dev-star5 (2012-05-11)
---------------------------
-
-- hl is false by default, true for site search [reinhardt]
-
-
-3.1-dev-star4 (2012-05-10)
---------------------------
-
-- added handling of hl and fl parameters [reinhardt]
-
-
-3.1-dev-star3 (2012-05-03)
---------------------------
-
-- fixed batching and reindexing in cleanup method [reinhardt]
-
-
-3.1-dev_star2 (2012-04-27)
---------------------------
-
-- remove the PathWrapper when unindexing [reinhardt]
-- let tests reflect changes [reinhardt]
-- patch unrestrictedSearchResults and reindexObject so that
-  reindexObjectSecurity works [reinhardt]
-- added cleanup method to solr maintenance [reinhardt]
-
-3.1-dev_star (2012-04-02)
---------------------
-
-- Added highlighting features [reinhardt]
-- Fixed path query with depth so that folders don't show themselves in their
-  contents [reinhardt]
 
 3.0 - 2012-02-06
 ----------------
@@ -208,7 +157,7 @@ Upgrade notes
 *************
 
 * Changed the names of the indexes used to emulate the `path` index. You need
-  to adjust your schema and rename `physicalPath` to `path_string`, 
+  to adjust your schema and rename `physicalPath` to `path_string`,
   `physicalDepth` to `path_depth` and `parentPaths` to `path_parents`. This
   also requires a full Solr reindex to pick up the new data.
   [hannosch]

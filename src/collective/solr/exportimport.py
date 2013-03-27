@@ -188,6 +188,7 @@ class SolrConfigXMLAdapter(XMLAdapterBase):
             highlight_fields.appendChild(param)
         append(create('highlight_formatter_pre', self.context.highlight_formatter_pre))
         append(create('highlight_formatter_post', self.context.highlight_formatter_post))
+        append(create('highlight_fragsize', str(self.context.highlight_fragsize)))
         field_list = self._doc.createElement('field-list')
         append(field_list)
         for name in self.context.field_list:
