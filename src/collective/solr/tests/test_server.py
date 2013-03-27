@@ -1074,7 +1074,10 @@ class SolrServerTests(SolrTestCase):
     def testBatchedSearchResults(self):
         self.maintenance.reindex()
         search = lambda **kw: [getattr(i, 'Title', None) for i in
-            solrSearchResults(SearchableText='a*', sort_on='Title', **kw)]
+                               solrSearchResults(SearchableText='a*',
+                                                 sort_on='Title',
+                                                 **kw
+                                                 ).results()]
         self.assertEqual(search(),
             ['Events', 'News', 'Welcome to Plone'])
         # when a batch size is given, the length should remain the same,
