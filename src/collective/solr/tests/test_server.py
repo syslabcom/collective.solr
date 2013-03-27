@@ -790,7 +790,8 @@ class SolrServerTests(SolrTestCase):
         self.maintenance.reindex()
         search = lambda attr, **kw: ', '.join([getattr(r, attr, '?') for r in
             solrSearchResults(request=dict(SearchableText='[* TO *]',
-                              path=dict(query='/plone', depth=1)), **kw)])
+                              path=dict(query='/plone', depth=1)),
+                              **kw).results()])
         self.assertEqual(search('Title', sort_on='Title'),
             'Events, News, Users, Welcome to Plone')
         self.assertEqual(search('Title', sort_on='Title',
