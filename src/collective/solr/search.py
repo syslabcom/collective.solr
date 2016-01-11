@@ -56,6 +56,7 @@ class Search(object):
                 parameters['fl'] = '* score'
         if isinstance(query, dict):
             query = ' '.join(query.values())
+
         logger.debug('searching for %r (%r)', query, parameters)
         if 'sort' in parameters:    # issue warning for unknown sort indices
             index, order = parameters['sort'].split()
@@ -63,6 +64,7 @@ class Search(object):
             field = schema.get(index, None)
             if field is None or not field.stored:
                 logger.warning('sorting on non-stored attribute "%s"', index)
+
         response = connection.search(q=query, **parameters)
         results = SolrResponse(response)
         response.close()
@@ -147,5 +149,5 @@ class Search(object):
             else:
                 value = '+%s:%s' % (name, value)
             query[name] = value
-        logger.debug('built query "%s"', query)
+        logger.info('built query "%s"', query)
         return query

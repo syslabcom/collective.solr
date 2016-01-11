@@ -264,6 +264,39 @@ class SolrControlPanelAdapter(SchemaAdapterBase):
 
     field_list = property(getFieldList, setFieldList)
 
+    def getBoost(self):
+        util = queryUtility(ISolrConnectionConfig)
+        return getattr(util, 'boost', 'recip(ms(NOW/HOUR,modified),3.16e-11,0.08,0.05)')
+
+    def setBoost(self, value):
+        util = queryUtility(ISolrConnectionConfig)
+        if util is not None:
+            util.boost = value
+
+    boost = property(getBoost, setBoost)
+
+    def getDefType(self):
+        util = queryUtility(ISolrConnectionConfig)
+        return getattr(util, 'defType', 'edismax')
+
+    def setDefType(self, value):
+        util = queryUtility(ISolrConnectionConfig)
+        if util is not None:
+            util.defType = value
+
+    defType = property(getDefType, setDefType)
+
+    def getDebugQuery(self):
+        util = queryUtility(ISolrConnectionConfig)
+        return not not getattr(util, 'debugQuery', 'false')
+
+    def setDebugQuery(self, value):
+        util = queryUtility(ISolrConnectionConfig)
+        if util is not None:
+            util.debugQuery = value
+
+    debugQuery = property(getDebugQuery, setDebugQuery)
+
 
 class SolrControlPanel(ControlPanelForm):
 

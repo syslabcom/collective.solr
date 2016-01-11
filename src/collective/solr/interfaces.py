@@ -117,6 +117,7 @@ class ISolrSchema(Interface):
     highlight_fragsize = Int(title=_(u'Highlight Fragment Size'), default=100,
         description=_(u'The size, in characters, of the snippets (aka '
                        'fragments) created by the highlighter.'))
+
     field_list = List(title=_(u'Default fields to be returned'),
         description = _(u'Specify metadata fields that should be returned for '
                          'items in the result set, one per line. Defaults to '
@@ -128,6 +129,18 @@ class ISolrSchema(Interface):
                          'items in the result set, one per line. Defaults to '
                          'all available plus ranking score.'),
         value_type = TextLine(), default = [], required = False)
+
+    boost = TextLine(title=_(u'Field boost'),
+                     default=u'recip(ms(NOW/HOUR,modified),3.16e-11,0.08,0.05)',
+                     description=_(u'An extra boost function passed in as edismax parameter'))
+
+    defType = TextLine(title=_(u'defType'),
+                     default=u'edismax',
+                     description=_(u'the request parser type to use for boosting'))
+
+    debugQuery = Bool(title=_(u'debugQuery'),
+                     default=False,
+                     description=_(u"Output debug info on the query. Covenience. Don't turn on on prodcution"))
 
 
 class ISolrConnectionConfig(ISolrSchema):
