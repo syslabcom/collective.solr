@@ -56,8 +56,10 @@ class Search(object):
                 parameters['fl'] = '* score'
         if isinstance(query, dict):
             query = ' '.join(query.values())
+            # Add the boost argument to boost by date. boost config from configlet
+            query = "{!boost b=%s}%s" % (config.boost, query)
 
-        logger.debug('searching for %r (%r)', query, parameters)
+        logger.info('searching for %r (%r)', query, parameters)
         if 'sort' in parameters:    # issue warning for unknown sort indices
             index, order = parameters['sort'].split()
             schema = manager.getSchema() or {}

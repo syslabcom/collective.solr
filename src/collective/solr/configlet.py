@@ -275,17 +275,6 @@ class SolrControlPanelAdapter(SchemaAdapterBase):
 
     boost = property(getBoost, setBoost)
 
-    def getDefType(self):
-        util = queryUtility(ISolrConnectionConfig)
-        return getattr(util, 'defType', 'edismax')
-
-    def setDefType(self, value):
-        util = queryUtility(ISolrConnectionConfig)
-        if util is not None:
-            util.defType = value
-
-    defType = property(getDefType, setDefType)
-
     def getDebugQuery(self):
         util = queryUtility(ISolrConnectionConfig)
         return not not getattr(util, 'debugQuery', 'false')

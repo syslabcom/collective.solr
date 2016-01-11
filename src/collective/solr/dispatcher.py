@@ -84,12 +84,12 @@ def solrSearchResults(request=None, **keywords):
             raise FallBackException
     schema = search.getManager().getSchema() or {}
     params = cleanupQueryParameters(extractQueryParameters(args), schema)
-    if hasattr(config, 'boost'):
-        params['boost'] = config.boost
-    if hasattr(config, 'defType'):
-        params['defType'] = config.defType
-    if hasattr(config, 'debugQuery'):
-        params['debugQuery'] = 'true'
+    # if hasattr(config, 'boost'):
+    #     params['bf'] = config.boost
+    # if hasattr(config, 'defType'):
+    #     params['defType'] = config.defType
+    # if hasattr(config, 'debugQuery'):
+    #     params['debugQuery'] = 'true'
 
     languageFilter(args)
     prepareData(args)

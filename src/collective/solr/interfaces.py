@@ -134,10 +134,6 @@ class ISolrSchema(Interface):
                      default=u'recip(ms(NOW/HOUR,modified),3.16e-11,0.08,0.05)',
                      description=_(u'An extra boost function passed in as edismax parameter'))
 
-    defType = TextLine(title=_(u'defType'),
-                     default=u'edismax',
-                     description=_(u'the request parser type to use for boosting'))
-
     debugQuery = Bool(title=_(u'debugQuery'),
                      default=False,
                      description=_(u"Output debug info on the query. Covenience. Don't turn on on prodcution"))
