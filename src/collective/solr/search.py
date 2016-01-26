@@ -57,7 +57,9 @@ class Search(object):
         if isinstance(query, dict):
             query = ' '.join(query.values())
             # Add the boost argument to boost by date. boost config from configlet
-            query = "{!boost b=%s}%s" % (config.boost, query)
+            boost_config = getattr(
+                config, 'boost', 'recip(ms(NOW/HOUR,modified),3.16e-11,0.08,0.05)')
+            query = "{!boost b=%s}%s" % (boost_config, query)
 
         logger.info('searching for %r (%r)', query, parameters)
         if 'sort' in parameters:    # issue warning for unknown sort indices
