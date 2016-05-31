@@ -4,7 +4,8 @@ Changelog
 4.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix BlobError occuring when indexing new files (fixes #120)
+  [tomgross]
 
 
 4.1.0-dev-rec0 (2017-01-27)
