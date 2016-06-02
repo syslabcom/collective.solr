@@ -16,6 +16,7 @@ from collective.solr.utils import prepare_wildcard
 from logging import getLogger
 from time import time
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 from zope.interface import implements
 
 try:
@@ -198,6 +199,16 @@ class Search(object):
             else:
                 value = '+%s:%s' % (name, value)
             query[name] = value
+
+        if 'path' not in args and 'allowedRolesAndUsers' in query:
+            # If there's no path we may get results from other portals. The
+            # allowedRolesAndUsers index is not meaningful in this case. We
+            # limit results outside the current portal to Anonymous.
+            portal_path = '/'.join(getSite().getPhysicalPath())
+            query['allowedRolesAndUsers'] = (
+                '((path_parents:' + portal_path + ' AND ' +
+                query['allowedRolesAndUsers'] +
+                ') OR +allowedRolesAndUsers:(Anonymous))')
         logger.debug('built query "%s"', query)
 
         if query:
