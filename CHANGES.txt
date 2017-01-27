@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.1 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 3.1-dev-rec2 (2017-01-27)
 -------------------------
 
