@@ -1,0 +1,6 @@
+recursive-include main_directory *
+recursive-include docs *
+include *
+include CHANGES.txt
+include README.rst
+global-exclude *.pyc
