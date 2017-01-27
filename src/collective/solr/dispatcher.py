@@ -88,7 +88,7 @@ def solrSearchResults(request=None, **keywords):
     prepareData(args)
     mangleQuery(args, config, schema)
     query = search.buildQuery(**args)
-    if 'path' not in args:
+    if 'path' not in args and 'allowedRolesAndUsers' in query:
         # If there's no path we may get results from other portals. The
         # allowedRolesAndUsers index is not meaningful in this case. We limit
         # results outside the current portal to Anonymous.
