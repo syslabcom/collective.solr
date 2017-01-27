@@ -1,8 +1,8 @@
 Changelog
 =========
 
-4.1.1 (unreleased)
-------------------
+4.1.0-dev-rec0 (2017-01-27)
+---------------------------
 
 - Limit results outside the current portal to Anonymous.
   Refs #13678 https://projects.syslab.com/issues/13678
