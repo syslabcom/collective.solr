@@ -4,7 +4,9 @@ Changelog
 4.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Limit results outside the current portal to Anonymous.
+  Refs #13678 https://projects.syslab.com/issues/13678
+  [reinhardt]
 
 
 4.1.0 (2015-02-19)
