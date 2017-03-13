@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.0.4 (unreleased)
-------------------
+5.0.4-dev-rec0 (2017-03-13)
+---------------------------
 
 - Implement reindexing the path indexes in solr. This means in solr path_string, path_parents and path_depth are updated on `obj.reindexObject(idxs=['path'])`.
   [mathias.leimgruber]
