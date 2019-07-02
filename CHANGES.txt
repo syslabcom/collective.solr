@@ -4,7 +4,8 @@ Changelog
 3.1.1 - unreleased
 ------------------
 
-- 
+- Conditionally patch searchResults. Helps with e.g. plone.reload.
+  [reinhardt]
 
 
 3.1 - 2013-02-16
