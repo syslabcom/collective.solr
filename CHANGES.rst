@@ -231,6 +231,8 @@ buildout section. See https://github.com/collective/collective.solr/blob/master/
 
 - ``solrBase`` should be a string, fixes #8
   [saily]
+- Conditionally patch searchResults. Helps with e.g. plone.reload.
+  [reinhardt]
 
 
 3.1 - 2013-02-16
