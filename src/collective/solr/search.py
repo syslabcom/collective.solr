@@ -200,7 +200,7 @@ class Search(object):
             # limit results outside the current portal to Anonymous.
             portal_path = '/'.join(getSite().getPhysicalPath())
             query['allowedRolesAndUsers'] = (
-                '((path_parents:' + portal_path + ' AND ' +
+                '((path_parents:"' + portal_path + '" AND ' +
                 query['allowedRolesAndUsers'] +
                 ') OR +allowedRolesAndUsers:(Anonymous))')
         logger.debug('built query "%s"', query)
