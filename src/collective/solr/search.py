@@ -199,7 +199,7 @@ class Search(object):
                 value = '+%s:%s' % (name, value)
             query[name] = value
 
-        if 'path' not in args and 'allowedRolesAndUsers' in query:
+        if 'path_parents' not in query and 'allowedRolesAndUsers' in query:
             # If there's no path we may get results from other portals. The
             # allowedRolesAndUsers index is not meaningful in this case. We
             # limit results outside the current portal to Anonymous.
