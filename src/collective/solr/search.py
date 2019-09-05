@@ -180,11 +180,6 @@ class Search(object):
                             value = '"%s"' % value
                 else:
                     value = quote(value)
-
-                if field.class_ == 'solr.StrField':
-                    if '\\/' in value:
-                        if value[0] != '"':
-                            value = '"%s"' % value
                 if not value:   # don't search for empty strings, even quoted
                     continue
             else:
