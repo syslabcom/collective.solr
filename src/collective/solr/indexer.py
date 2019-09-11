@@ -182,6 +182,9 @@ class SolrIndexProcessor(object):
                 logger.warning(msg, obj)
                 return
 
+            config = getUtility(ISolrConnectionConfig)
+            if not config.atomic_updates:
+                attributes = schema.keys()
             if attributes is not None:
 
                 if 'path' in attributes:
@@ -203,7 +206,6 @@ class SolrIndexProcessor(object):
                 return          # don't index with no data...
             prepareData(data)
             if data.get(uniqueKey, None) is not None and not missing:
-                config = getUtility(ISolrConnectionConfig)
                 if config.commit_within:
                     data['commitWithin'] = config.commit_within
                 try:
