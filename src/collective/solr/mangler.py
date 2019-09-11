@@ -7,6 +7,7 @@ from collective.solr.utils import isSimpleSearch
 from collective.solr.utils import isWildCard
 from collective.solr.utils import prepare_wildcard
 from collective.solr.utils import splitSimpleSearch
+from Products.CMFPlone.utils import safe_unicode
 from zope.component import queryUtility
 
 
@@ -181,7 +182,10 @@ def mangleQuery(keywords, config, schema):
         elif 'operator' in args:
             if isinstance(value, (list, tuple)) and len(value) > 1:
                 sep = ' %s ' % args['operator'].upper()
-                value = sep.join(map(str, map(iso8601date, value)))
+                value = sep.join(
+                    [u'%s' % x
+                     for x in map(safe_unicode, map(iso8601date, value))]
+                ).encode('utf-8')
                 keywords[key] = '(%s)' % value
             del args['operator']
         elif key == 'allowedRolesAndUsers':
