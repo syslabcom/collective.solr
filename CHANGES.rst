@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.0.4 (unreleased)
-------------------
+5.0.4.dev0 (2019-09-26)
+-----------------------
 
 - Fixed cross-portal patch.
 - Fixed non-atomic updates.
