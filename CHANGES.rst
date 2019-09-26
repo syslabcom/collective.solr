@@ -4,7 +4,9 @@ Changelog
 5.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed cross-portal patch.
+- Fixed non-atomic updates.
+- Fixed non-ascii keywords (Subject).
 
 
 5.0.4-dev-rec0 (2017-03-13)
